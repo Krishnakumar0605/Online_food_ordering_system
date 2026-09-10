@@ -1,23 +1,12 @@
-let user;
-gettinguser = () => {
-    user = JSON.parse(localStorage.getItem("user_id"));
+// Waits for the admin check to resolve before loading any data — the old
+// version called fetchingData() immediately and only redirected non-admins
+// afterward, so admin-only content would flash on screen first.
+async function init() {
+    let customer = await requireAdmin()
+    if (!customer) return
+    fetchingData()
 }
-gettinguser()
-if (user) {
-    fetch(`http://localhost:3000/users/${user}`)
-        .then((response) => response.json())
-        .then((data) => checkinguseroradmin(data[0]))
-        .catch((err) => {
-            console.log(err)
-        })
-} else {
-    window.location = "index.html"
-}
-function checkinguseroradmin(data) {
-    if (data.role != "admin") {
-        window.location = "index.html"
-    }
-}
+init()
 
 async function fetchingData() {
     let response = await fetch("http://localhost:3000/foods/admin")
@@ -26,7 +15,6 @@ async function fetchingData() {
     document.querySelector(".edit-container").style.display = "none"
 
 }
-fetchingData()
 
 function renderingData(data) {
     document.querySelector(".food-container").innerHTML = ""
@@ -71,7 +59,7 @@ function renderingData(data) {
             let data = {}
             data.category_name = form.category_name.value
             data.description = form.description.value
-            let response = await fetch(`http://localhost:3000/foods/cate/${data.category_name}`)
+            let response = await fetch(`http://localhost:3000/foods/cate/${encodeURIComponent(data.category_name)}`)
             let d = await response.json()
             if (d.length > 0) {
                 return alerting("The category is already there. Please change the name")
@@ -98,7 +86,7 @@ function renderingData(data) {
         form.innerHTML = `<input type="text" name="food_name" placeholder="Food Name" required>
     <input type="text" name="description" placeholder="Description" required>
     <input type="number" name="price" placeholder="Price" required>
-    <input type="file" accept="image/" name="image_links" placeholder="Image Links" required>
+    <input type="text" name="image_links" placeholder="Image Links" required>
     `
         let select = document.createElement("select")
         fetch("http://localhost:3000/foods/categories")
@@ -128,8 +116,8 @@ function renderingData(data) {
             data.price = form.price.value
             data.image_links = form.image_links.value
             data.category_id = select.value
-            data.parseInt = parseInt(data.price)
-            let response = await fetch(`http://localhost:3000/foods/check/${data.food_name}`)
+            data.price = parseInt(data.price)
+            let response = await fetch(`http://localhost:3000/foods/check/${encodeURIComponent(data.food_name)}`)
             let d = await response.json()
             if (d.length > 0) {
                 return alerting("The food is already there change the name")
@@ -185,9 +173,9 @@ renderingEditForm = (data, id) => {
         data.description = form.description.value
         data.price = form.price.value
         data.image_links = form.image_links.value
-        data.parseInt = parseInt(data.price)
+        data.price = parseInt(data.price)
         data.id = id
-        let response = await fetch(`http://localhost:3000/foods/check/${data.food_name}`)
+        let response = await fetch(`http://localhost:3000/foods/check/${encodeURIComponent(data.food_name)}`)
         let d = await response.json()
         if (d.length > 0) {
             return alerting("The food is already there change the name")
@@ -203,10 +191,7 @@ renderingEditForm = (data, id) => {
         alerting("Updated Successfully", "lightgreen")
     })
 }
-function callingfetchingData() {
-    document.querySelector(".food-container").innerHTML = ""
-    fetchingData()
-}
+
 deleteFood = (id) => {
     let con = confirm("Are you sure to delete this food item")
     if (con) {

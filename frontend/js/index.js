@@ -22,27 +22,17 @@ function renderingTheFoods(data) {
         });
     }
 }
-let user;
-gettinguser = () => {
-    user = JSON.parse(localStorage.getItem("user_id"));
-    if (user&&document.querySelector(".login")) {
-        document.querySelector(".login").innerHTML = "Logout"
-        document.querySelector(".login").classList = "logout"
-    }
+
+let user = getUser()
+if (user && document.querySelector(".login")) {
+    document.querySelector(".login").innerHTML = "Logout"
+    document.querySelector(".login").classList = "logout"
 }
 
-gettinguser()
-if (user) {
-    fetch(`http://localhost:3000/users/${user}`)
-        .then((response) => response.json())
-        .then((data) => checkinguseroradmin(data[0]))
-        .catch((err) => {
-            console.log(err)
-        })
-}
-function checkinguseroradmin(data) {
-    gettinguser()
-    if (data.role == "admin") {
+async function initAdminButtons() {
+    if (!user) return
+    let customer = await fetchCurrentUser()
+    if (customer && customer.role === "admin") {
         let button = document.createElement("button")
         button.innerHTML = "Manage Menu"
         button.addEventListener("click", () => {
@@ -67,11 +57,12 @@ function checkinguseroradmin(data) {
         button1.classList = "adminbtn"
         button2.classList = "adminbtn"
         button3.classList = "adminbtn"
-        document.querySelector(".center").append(button,button1,button2,button3)
+        document.querySelector(".center").append(button, button1, button2, button3)
     }
 }
+initAdminButtons()
+
 function buyInstantly(eid, e, price, img) {
-    gettinguser()
     if (!user) {
         alerting("Login first")
         setTimeout(() => {
@@ -105,9 +96,11 @@ function buyInstantly(eid, e, price, img) {
     })
 }
 
-
 function searching(value) {
-    fetch(`http://localhost:3000/search/searching?search=${value}`).then(response => response.json()).then(data => checkingsearch(data)).catch((err) => {
+    fetch(`http://localhost:3000/search/searching?search=${encodeURIComponent(value)}`)
+        .then(response => response.json())
+        .then(data => checkingsearch(data))
+        .catch((err) => {
             console.log(err)
         })
 }
@@ -128,8 +121,8 @@ function buy(quantity, id, price, img) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(obj)
     }).then(response => response.json()).then(data => checking(data)).catch((err) => {
-            console.log(err)
-        })
+        console.log(err)
+    })
 }
 function quant(num) {
     if (document.querySelector(".quantity").innerHTML == 1 && num == -1) {
@@ -155,7 +148,7 @@ if (logout) {
             logout.innerHTML = "Login"
             logout.classList = "login"
             localStorage.removeItem("user_id")
-            window.location="index.html"
+            window.location = "index.html"
         }
     })
 }

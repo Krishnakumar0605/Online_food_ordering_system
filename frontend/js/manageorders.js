@@ -1,9 +1,15 @@
+async function init() {
+    let customer = await requireAdmin()
+    if (!customer) return
+    fetchingdatas()
+}
+init()
+
 async function fetchingdatas() {
     let response = await fetch(`http://localhost:3000/orders/admin`)
     let data = await response.json()
     renderingData(data)
 }
-fetchingdatas()
 renderingData = (data) => {
     document.querySelector(".manageorder-container").innerHTML = ""
     data.forEach(element => {
@@ -20,8 +26,10 @@ renderingData = (data) => {
         </div>
         <span class="span">${element.order_status}</span>
         `
-        if (element.order_status == "cancelled"||element.order_status=="success") {
-            div.innerHTML += `<button onclick="cancelling(${element.order_id})" style="background-color: lightred;" class="can" disabled="true">Cancel</button>
+        if (element.order_status == "cancelled" || element.order_status == "success") {
+            // "lightred" isn't a valid CSS color name (silently ignored by
+            // the browser) — using a real color here.
+            div.innerHTML += `<button onclick="cancelling(${element.order_id})" style="background-color: lightcoral;" class="can" disabled="true">Cancel</button>
       </div>
       <button onclick="success(${element.order_id})" class="can" disabled="true">Success</button>`
         }
@@ -32,7 +40,7 @@ renderingData = (data) => {
         }
         document.querySelector(".manageorder-container").prepend(div)
     });
-    
+
 }
 
 function cancelling(id) {
@@ -57,6 +65,6 @@ function success(id) {
         }).then(response => response.json()).then(data => fetchingdatas()).catch((err) => {
             console.log(err)
         })
-        alerting("Marked as Success Successfully","lightgreen")
+        alerting("Marked as Success Successfully", "lightgreen")
     }
 }

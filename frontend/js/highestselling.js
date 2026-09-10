@@ -1,13 +1,19 @@
+async function init() {
+    let customer = await requireAdmin()
+    if (!customer) return
+    fetchingData()
+}
+init()
+
 async function fetchingData() {
     let response = await fetch("http://localhost:3000/search/highest")
     let data = await response.json()
     renderingData(data)
 }
 
-fetchingData()
-
 function renderingData(data) {
-    data[0].forEach(element => {
+    document.querySelector(".highest-container").innerHTML = ""
+    data.forEach(element => {
         document.querySelector(".highest-container").innerHTML += `<div class="highest-card">
         <img src="${element.image_links}" alt="">
         <p>${element.food_name}</p>

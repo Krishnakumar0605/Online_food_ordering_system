@@ -1,9 +1,15 @@
+async function init() {
+    let customer = await requireAdmin()
+    if (!customer) return
+    fetchingData()
+}
+init()
+
 async function fetchingData() {
     let response = await fetch(`http://localhost:3000/orders/all`)
     let data = await response.json()
     renderingData(data)
 }
-fetchingData()
 function renderingData(data) {
     let amount = 0
     let orders = 0
@@ -28,9 +34,6 @@ function renderingData(data) {
             cancelled += 1
             cancelledamount += Number(element.total_amount)
         }
-        document.querySelector(".amount").innerHTML = `Total Sales : ${amount}`
-        document.querySelector(".pending").innerHTML = `Pending Orders : ${pending}`
-        document.querySelector(".success").innerHTML = `Success Orders : ${success}`
         let div = document.createElement("div")
         div.classList = "Total-card"
         div.innerHTML = `<div class="card" style="display: flex;">

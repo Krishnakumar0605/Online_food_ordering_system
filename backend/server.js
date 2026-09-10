@@ -10,6 +10,6 @@ app.use("/search",require("./routes/searching"))
 app.use("/orders",require("./routes/orders"))
 
 
-app.listen(process.env.db_port,()=>{
-    console.log("Server is running in the port",process.env.db_port)
+app.listen(process.env.APP_PORT, () => {
+    console.log("Server is running on port", process.env.APP_PORT)
 })

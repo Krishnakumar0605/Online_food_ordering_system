@@ -1,15 +1,17 @@
-let user;
-gettinguser = () => {
-    user = JSON.parse(localStorage.getItem("user_id"));
+let user
+
+function init() {
+    user = requireLogin()
+    if (!user) return
+    fetchingData()
 }
-gettinguser()
+init()
+
 async function fetchingData() {
-    gettinguser()
     let response = await fetch(`http://localhost:3000/orders?id=${user}`)
     let data = await response.json()
     renderingData(data)
 }
-fetchingData()
 function renderingData(data) {
     if (data.length == 0) {
         document.querySelector(".orderhistory-container").innerHTML = "There is no Orders yet"
@@ -31,7 +33,7 @@ function renderingData(data) {
         <span class="span">${element.order_status}</span>
         `
         if (element.order_status == "cancelled" || element.order_status == "success") {
-            div.innerHTML += `<button onclick="cancelling(${element.order_id})" style="background-color: lightred;" class="can" disabled="true">Cancel</button>
+            div.innerHTML += `<button onclick="cancelling(${element.order_id})" style="background-color: lightcoral;" class="can" disabled="true">Cancel</button>
       </div>`
         }
         else {
