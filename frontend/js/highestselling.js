@@ -6,7 +6,7 @@ async function init() {
 init()
 
 async function fetchingData() {
-    let response = await fetch("http://localhost:3000/search/highest")
+    let response = await fetch("https://jk-foods.onrender.com/search/highest")
     let data = await response.json()
     renderingData(data)
 }

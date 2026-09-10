@@ -1,5 +1,5 @@
 async function fetchingTheFoods() {
-    let response = await fetch("http://localhost:3000/foods")
+    let response = await fetch("https://jk-foods.onrender.com/foods")
     let data = await response.json()
     renderingTheFoods(data)
 }
@@ -97,7 +97,7 @@ function buyInstantly(eid, e, price, img) {
 }
 
 function searching(value) {
-    fetch(`http://localhost:3000/search/searching?search=${encodeURIComponent(value)}`)
+    fetch(`https://jk-foods.onrender.com/search/searching?search=${encodeURIComponent(value)}`)
         .then(response => response.json())
         .then(data => checkingsearch(data))
         .catch((err) => {
@@ -116,7 +116,7 @@ function checkingsearch(data) {
 
 function buy(quantity, id, price, img) {
     let obj = { quantity, id, user, price, img }
-    fetch("http://localhost:3000/orders/", {
+    fetch("https://jk-foods.onrender.com/orders/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(obj)

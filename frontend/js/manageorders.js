@@ -6,7 +6,7 @@ async function init() {
 init()
 
 async function fetchingdatas() {
-    let response = await fetch(`http://localhost:3000/orders/admin`)
+    let response = await fetch(`https://jk-foods.onrender.com/orders/admin`)
     let data = await response.json()
     renderingData(data)
 }
@@ -46,7 +46,7 @@ renderingData = (data) => {
 function cancelling(id) {
     let con = confirm("Are you sure to cancel order")
     if (con) {
-        fetch(`http://localhost:3000/orders?id=${id}&status=cancelled`, {
+        fetch(`https://jk-foods.onrender.com/orders?id=${id}&status=cancelled`, {
             method: "PATCH",
             headers: { "Content-Type": "application/json" },
         }).then(response => response.json()).then(data => fetchingdatas()).catch((err) => {
@@ -59,7 +59,7 @@ function cancelling(id) {
 function success(id) {
     let con = confirm("Are you sure to mark order as success And also ensure that the order is delivered to the customer")
     if (con) {
-        fetch(`http://localhost:3000/orders?id=${id}&status=success`, {
+        fetch(`https://jk-foods.onrender.com/orders?id=${id}&status=success`, {
             method: "PATCH",
             headers: { "Content-Type": "application/json" },
         }).then(response => response.json()).then(data => fetchingdatas()).catch((err) => {

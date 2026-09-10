@@ -9,7 +9,7 @@ async function init() {
 init()
 
 async function fetchingData() {
-    let response = await fetch("http://localhost:3000/foods/admin")
+    let response = await fetch("https://jk-foods.onrender.com/foods/admin")
     let data = await response.json()
     renderingData(data)
     document.querySelector(".edit-container").style.display = "none"
@@ -59,12 +59,12 @@ function renderingData(data) {
             let data = {}
             data.category_name = form.category_name.value
             data.description = form.description.value
-            let response = await fetch(`http://localhost:3000/foods/cate/${encodeURIComponent(data.category_name)}`)
+            let response = await fetch(`https://jk-foods.onrender.com/foods/cate/${encodeURIComponent(data.category_name)}`)
             let d = await response.json()
             if (d.length > 0) {
                 return alerting("The category is already there. Please change the name")
             }
-            fetch(`http://localhost:3000/foods/categories`, {
+            fetch(`https://jk-foods.onrender.com/foods/categories`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(data)
@@ -89,7 +89,7 @@ function renderingData(data) {
     <input type="text" name="image_links" placeholder="Image Links" required>
     `
         let select = document.createElement("select")
-        fetch("http://localhost:3000/foods/categories")
+        fetch("https://jk-foods.onrender.com/foods/categories")
             .then((response) => response.json())
             .then((data) => {
                 data.forEach(element => {
@@ -117,13 +117,13 @@ function renderingData(data) {
             data.image_links = form.image_links.value
             data.category_id = select.value
             data.price = parseInt(data.price)
-            let response = await fetch(`http://localhost:3000/foods/check/${encodeURIComponent(data.food_name)}`)
+            let response = await fetch(`https://jk-foods.onrender.com/foods/check/${encodeURIComponent(data.food_name)}`)
             let d = await response.json()
             if (d.length > 0) {
                 return alerting("The food is already there change the name")
             }
             else {
-                fetch(`http://localhost:3000/foods`, {
+                fetch(`https://jk-foods.onrender.com/foods`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(data)
@@ -148,7 +148,7 @@ editFood = (id) => {
         <h1>Edit food item</h1>
         <h1 style="color: red" class="x">X</h1>
       </div>`
-    fetch(`http://localhost:3000/foods/${id}`)
+    fetch(`https://jk-foods.onrender.com/foods/${id}`)
         .then((response) => response.json())
         .then((data) => renderingEditForm(data[0], id)).catch((err) => {
             console.log(err)
@@ -175,12 +175,12 @@ renderingEditForm = (data, id) => {
         data.image_links = form.image_links.value
         data.price = parseInt(data.price)
         data.id = id
-        let response = await fetch(`http://localhost:3000/foods/check/${encodeURIComponent(data.food_name)}`)
+        let response = await fetch(`https://jk-foods.onrender.com/foods/check/${encodeURIComponent(data.food_name)}`)
         let d = await response.json()
         if (d.length > 0) {
             return alerting("The food is already there change the name")
         }
-        fetch(`http://localhost:3000/foods/${data.id}`, {
+        fetch(`https://jk-foods.onrender.com/foods/${data.id}`, {
             method: "PATCH",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data)
@@ -195,7 +195,7 @@ renderingEditForm = (data, id) => {
 deleteFood = (id) => {
     let con = confirm("Are you sure to delete this food item")
     if (con) {
-        fetch(`http://localhost:3000/foods/${id}`, {
+        fetch(`https://jk-foods.onrender.com/foods/${id}`, {
             method: "DELETE",
             headers: { "Content-Type": "application/json" },
         }).then(response => response.json()).then(data => fetchingData()).catch((err) => {

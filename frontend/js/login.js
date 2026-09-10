@@ -3,7 +3,7 @@ document.querySelector("form").addEventListener("submit", (e) => {
     let email = document.querySelector(".email").value
     let password = document.querySelector(".password").value
 
-    fetch(`http://localhost:3000/users?email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`)
+    fetch(`https://jk-foods.onrender.com/users?email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`)
         .then(response => response.json())
         .then(data => checkuser(data))
         .catch((err) => {

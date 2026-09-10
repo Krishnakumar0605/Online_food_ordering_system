@@ -34,7 +34,7 @@ async function fetchCurrentUser() {
     let user = getUser()
     if (!user) return null
     try {
-        let response = await fetch(`http://localhost:3000/users/${user}`)
+        let response = await fetch(`https://jk-foods.onrender.com/users/${user}`)
         let data = await response.json()
         return data[0] || null
     } catch (err) {

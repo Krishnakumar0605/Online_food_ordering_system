@@ -17,7 +17,7 @@ document.querySelector("form").addEventListener("submit", (e) => {
         return alerting("The phone number must contain less than 20 digits")
     }
     let obj = { name, email, phno, password }
-    fetch("http://localhost:3000/users/reg", {
+    fetch("https://jk-foods.onrender.com/users/reg", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(obj)
