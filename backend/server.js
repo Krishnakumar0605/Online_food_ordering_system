@@ -10,6 +10,6 @@ app.use("/search",require("./routes/searching"))
 app.use("/orders",require("./routes/orders"))
 
 
-app.listen(process.env.APP_PORT, () => {
+app.listen(process.env.APP_PORT||3000,"0.0.0.0", () => {
     console.log("Server is running on port", process.env.APP_PORT)
 })
