@@ -4,7 +4,7 @@
   "description": "Assessment_MySQL",
   "main": "server.js",
   "scripts": {
-    "test": "nodemon server.js"
+    "test": "node server.js"
   },
   "author": "Krishna",
   "license": "ISC",
