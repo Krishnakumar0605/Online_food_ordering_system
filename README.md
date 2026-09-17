@@ -5,14 +5,7 @@ Note : kindly remember your password because your password is hashed and then sa
 
 <!-- Step - 1 -->
 
-    1. Inside the .env file we normally stores the credentials(database credentials)
-        db_host=localhost
-        db_port=3000
-        db_user=dckap
-        db_password=Welcome@123
-        db_database=Online_Food_Ordering_System
-
-    These are my credentials if you run this in your local change the credentials based on your's. ensure you have the exact variable name which i have.
+    1.These are my credentials if you run this in your local change the credentials based on your's. ensure you have the exact variable name which i have.
 
     2.Copy my database code(database.sql) and paste in your MYSQL DB
 
