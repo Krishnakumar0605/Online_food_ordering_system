@@ -1,6 +1,6 @@
 async function init() {
-    let customer = await requireAdmin()
-    if (!customer) return
+    // let customer = await requireAdmin()
+    // if (!customer) return
     fetchingData()
 }
 init()
